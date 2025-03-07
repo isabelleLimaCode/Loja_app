@@ -1,0 +1,15 @@
+{
+    "name": "isabe/loja",
+    "autoload": {
+        "psr-4": {
+            "Isabe\\Loja\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "isabelleLimaCode",
+            "email": "a39617@alunos.ipb.pt"
+        }
+    ],
+    "require": {}
+}
