@@ -1,30 +1,34 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Drawer ,Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native'; // Hook para acessar a navegação
+
 
 export default function Dashboard() {
-    const [active, setActive] = React.useState('');
+    const navigation = useNavigation(); // Obtém o objeto de navegação com o hook useNavigation
+
 
     return (
         <View style={styles.container}>
-          
             <Text style={styles.title}>Produtos</Text>
-          
             <Card style={styles.card}>
-            <Card.Cover source={require('../assets/images/venda2.png')} style={styles.image} />
+                <Card.Cover source={require('../assets/images/venda2.png')} style={styles.image} />
                 <Card.Content>
                     <Title style={styles.title2}>teste</Title>
                     <Paragraph style={styles.price}>€2.00</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button style={{backgroundColor:'#62466B'}}  mode="contained" onPress={() => console.log("Editou", "teste")}>
-                    Editar
+                    <Button style={{backgroundColor:'#62466B'}} mode="contained" onPress={() => console.log("Editou", "teste")}>
+                        Editar
                     </Button>
                     <Button style={{backgroundColor:'#e61919'}} mode="contained" onPress={() => console.log("Eliminou", "teste")}>
-                    Eliminar
+                        Eliminar
                     </Button>
                 </Card.Actions>
             </Card>
+            <View>
+                
+            </View>
         </View>
     );
 }
@@ -46,18 +50,18 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 10,
         overflow: "hidden",
-        elevation: 4, 
-      },
-      image: {
+        elevation: 4,
+    },
+    image: {
         height: 150,
-      },
-      title2: {
+    },
+    title2: {
         fontSize: 18,
         fontWeight: "bold",
-      },
-      price: {
+    },
+    price: {
         fontSize: 16,
         color: "green",
         marginBottom: 5,
-      },
+    },
 });

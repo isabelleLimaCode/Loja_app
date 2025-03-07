@@ -112,6 +112,12 @@ export default StyleSheet.create({
         alignSelf:'center',
         marginTop:60
     },
+    imag3:{
+        width:220,
+        height:220,
+        alignSelf:'center',
+        marginTop:60
+    },
 
     imag2:{
         width:52,

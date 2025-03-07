@@ -14,9 +14,20 @@ import {
 } from 'react-native';
 import stylemain from '../Styles/StyleLogin';
 import { FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 
-export default function Login() {
+
+type RootStackParamList = {
+    login: undefined;
+    Main: undefined;
+  };
+  
+  type Props = {
+    navigation: StackNavigationProp<RootStackParamList, "login">;
+  };
+
+export default function Login({ navigation }: Props) {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [passwuser, setpassuser] = useState(''); 
@@ -64,7 +75,10 @@ export default function Login() {
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[stylemain.btn, {top: 30}]}>
+                    <TouchableOpacity style={[stylemain.btn, {top: 30}]} 
+                        onPress={() => navigation.navigate('Main')}
+                        activeOpacity={0.7} 
+                    >
                         <Text style={stylemain.txt}>Iniciar Sessão</Text>
                         <AntDesign 
                             name="user" 
