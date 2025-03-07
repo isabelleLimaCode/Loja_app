@@ -14,6 +14,35 @@ export default StyleSheet.create({
 
         
     },
+    text: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#333',
+    },
+
+    title: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#333',
+        marginBottom: 10,
+    },
+    card: {
+        width: '90%',
+        padding: 15,
+        backgroundColor: 'white',
+        elevation: 3,
+        borderRadius: 10,
+        alignSelf: 'center',
+        marginTop:70
+    },
+    description: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#555',
+        marginBottom: 10,
+    },
 
     input: { 
         top:30,

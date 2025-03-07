@@ -17,10 +17,10 @@ export default function Dashboard() {
                     <Paragraph style={styles.price}>€2.00</Paragraph>
                 </Card.Content>
                 <Card.Actions>
-                    <Button  mode="contained" onPress={() => console.log("Comprou", "teste")}>
+                    <Button style={{backgroundColor:'#62466B'}}  mode="contained" onPress={() => console.log("Editou", "teste")}>
                     Editar
                     </Button>
-                    <Button mode="contained" onPress={() => console.log("Comprou", "teste")}>
+                    <Button style={{backgroundColor:'#e61919'}} mode="contained" onPress={() => console.log("Eliminou", "teste")}>
                     Eliminar
                     </Button>
                 </Card.Actions>
