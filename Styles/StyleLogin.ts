@@ -4,7 +4,14 @@ import {StyleSheet,Dimensions} from "react-native";
 const Cardwidth = Math.round(Dimensions.get('window').width); // deixa o card do tamanho consoante a sua informação
 export default StyleSheet.create({
     mainConteiner:{
-        backgroundColor: '#B0E0E6',
+        backgroundColor: '#000',
+        width:'auto',
+        height:300,
+        alignItems:'center',
+        justifyContent:'center',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20
+
         
     },
 
@@ -24,7 +31,8 @@ export default StyleSheet.create({
 
     textinput:{
         color:'#fff',
-        top:30
+        top:30,
+        left:18,
     },  
 
 
@@ -33,7 +41,7 @@ export default StyleSheet.create({
         borderTopLeftRadius: 20, 
         borderTopRightRadius: 20, 
         flex:2,
-        marginTop:350,
+        marginTop:70
         
     },
 
@@ -70,11 +78,10 @@ export default StyleSheet.create({
     },
 
     imag:{
-        width:52,
-        height:35,
+        width:320,
+        height:320,
         alignSelf:'center',
-        marginTop:60,
-        marginRight:70
+        marginTop:60
     },
 
     imag2:{
