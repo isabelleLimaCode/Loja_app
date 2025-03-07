@@ -2,6 +2,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import StackNavigator from './Stack.routes';
 import Home from '@/components/Home';
+import Dashboard from '@/components/Dashboard';
 
 const Drawer = createDrawerNavigator();
 
@@ -11,7 +12,7 @@ export default function DrawerNavigator() {
 
   const InternalDrawerContent = () => (
     <InternalDrawer.Navigator>
-      <InternalDrawer.Screen name="Inicio" component={StackNavigator} />
+      <InternalDrawer.Screen name="Inicio" component={StackNavigator} options={{ headerShown: false }}/>
     </InternalDrawer.Navigator>
     );
   return (
@@ -23,7 +24,7 @@ export default function DrawerNavigator() {
     }}
     >
       <Drawer.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Drawer.Screen name="Produtos" component={StackNavigator} options={{ headerShown: false }} />
+      <Drawer.Screen name="Produtos" component={Dashboard} options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
 }

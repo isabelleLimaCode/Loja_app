@@ -32,7 +32,7 @@ export default function Login() {
     return (
         <KeyboardAvoidingView 
             behavior={Platform.OS == "ios" ? "padding" : "height"}  
-            style={{flex: 1, backgroundColor: '#082854'}}>
+            style={{flex: 1,backgroundColor:'#62466B'}}>
 
              <View style={stylemain.mainConteiner}>
              <Image style= {stylemain.imag} source={require('../assets/images/venda2.png')}/>
@@ -66,10 +66,10 @@ export default function Login() {
 
                     <TouchableOpacity style={[stylemain.btn, {top: 30}]}>
                         <Text style={stylemain.txt}>Iniciar Sessão</Text>
-                        <FontAwesome5 
-                            name="location-arrow" 
-                            size={20} 
-                            color="white" 
+                        <AntDesign 
+                            name="user" 
+                            size={30} 
+                            color="black" 
                             style={stylemain.seta} 
                         />
                     </TouchableOpacity>
