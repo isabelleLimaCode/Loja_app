@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Para navegação
 import stylemain from '../Styles/StyleLogin';
 
 export default function Aut2F() {
   const [otp, setOtp] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const navigation = useNavigation(); // Instância de navegação
 
   const handleVerifyOtp = () => {
     if (otp.length !== 6) {
@@ -24,6 +26,10 @@ export default function Aut2F() {
         setError('Código inválido. Tente novamente.');
       }
     }, 1500);
+  };
+
+  const handleCancel = () => {
+    navigation.goBack(); // Retorna para a tela anterior (provavelmente o login)
   };
 
   return (
@@ -54,6 +60,13 @@ export default function Aut2F() {
             title={isLoading ? 'Verificando...' : 'Avançar'}
             onPress={handleVerifyOtp}
             disabled={isLoading}
+          />
+
+          {/* Botão Cancelar para voltar ao login */}
+          <Button
+            title="Cancelar"
+            onPress={handleCancel}
+            color="red"
           />
         </View>
       </TouchableWithoutFeedback>
