@@ -1,43 +1,42 @@
 <?php
-$apiKey = "4EZ7XWCd2QTP2PmL6wC3oZr2tuFH8jzt"; // Substitua pela sua API Key
-$numero = "351910066962"; // Número de destino no formato internacional
-$mensagem = "Olá, esta é uma mensagem de teste WHAPI Cloud!";
 
-$url = "https://whapi.cloud/api/send-message"; // URL atualizada para WHAPI Cloud
+function sendWhatsAppMessage($phone, $message) {
+    $url = "https://api.whapi.cloud/messages/text"; // Altere para a URL correta
+    $apiKey = "SEU_BEARER_AUTH_KEY"; // Substitua pelo seu token real
 
-$dados = [
-    "phone" => $numero, // "phone" é o parâmetro usado pela nova API
-    "message" => $mensagem
-];
+    $data = [
+        "to" => $phone,
+        "body" => $message
+    ];
 
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Authorization: Bearer $apiKey",
-    "Content-Type: application/json"
-]);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($dados));
+    $headers = [
+        "Authorization: Bearer $apiKey",
+        "Content-Type: application/json"
+    ];
 
-// Definir timeout para 10 segundos
-curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-$resposta = curl_exec($ch);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Captura o código HTTP
+    curl_close($ch);
 
-if (curl_errno($ch)) {
-    echo "Erro no cURL: " . curl_error($ch);
-} else {
-    // Decodificar a resposta JSON
-    $respostaJson = json_decode($resposta, true);
-    
-    // Verificar se a resposta contém status de sucesso
-    if (isset($respostaJson['status']) && $respostaJson['status'] == 'success') {
-        echo "Mensagem enviada com sucesso!";
+    return json_encode(["http_code" => $httpCode, "response" => json_decode($response, true)]);
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    $phone = $_GET["phone"] ?? "";
+    $message = $_GET["message"] ?? "";
+
+    if (!empty($phone) && !empty($message)) {
+        echo sendWhatsAppMessage($phone, $message);
     } else {
-        // Exibir erro caso haja algum problema
-        echo "Erro ao enviar mensagem: " . ($respostaJson['message'] ?? 'Desconhecido');
+        echo json_encode(["error" => "Número de telefone e mensagem são obrigatórios"]);
     }
 }
 
-curl_close($ch);
 ?>
