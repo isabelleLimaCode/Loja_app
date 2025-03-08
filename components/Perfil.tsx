@@ -49,6 +49,7 @@ export default function Perfil({ navigation }: Props) {
 
     // Função para buscar os dados do perfil
     const loadUserProfile = async (id: string) => {
+        console.log('Carregando perfil do utilizador:', id);
         setIsLoading(true);
         try {
             let response = await fetch(`http://172.20.10.3:8000/api/user_profile.php?id=${id}`, {

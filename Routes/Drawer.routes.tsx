@@ -1,9 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '@/components/Home';
-import Dashboard from '@/components/Dashboard';
+import Dashboard from '@/components/Produto';
 import Perfil from '@/components/Perfil';
 import Header from '@/components/Header'; // Importando o Header
+import Subscricao from '@/components/Subscricao';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +20,7 @@ export default function DrawerNavigator() {
     >
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Produtos" component={Dashboard} options={{ headerShown: false }} />
+      <Drawer.Screen name="Produtos subscritos" component={Subscricao} options={{ headerShown: false }} />
       <Drawer.Screen name="Definições" component={Perfil} options={{ headerShown: false }} />
     </Drawer.Navigator>
   );
