@@ -41,7 +41,6 @@ if ($stmt = $conn->prepare($sql)) {
                 'nome' => $nome,
                 'telefone' => $telefone,
                 'email' => $email,
-                'password' => $password
             ]
         ]);
     } else {

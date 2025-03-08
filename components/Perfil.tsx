@@ -76,8 +76,6 @@ export default function Perfil({ navigation }: Props) {
                 setNome(nome);
                 setTelemovel(telefone);
                 setEmail(email); // O email será atualizado se houver algum novo
-                setPass(password);
-                setConfirmarPass(password);
             } else {
                 Alert.alert('Erro', data.message || 'Erro ao carregar os dados do perfil');
             }
@@ -95,10 +93,6 @@ export default function Perfil({ navigation }: Props) {
         return !email.includes('@');
     };
 
-    // se a senha e a confirmação são iguais
-    const hasPasswordError = () => {
-        return pass !== confirmarPass;
-    };
 
     const onChangeNome = (text: string) => {
         setNome(text);
@@ -106,14 +100,6 @@ export default function Perfil({ navigation }: Props) {
 
     const onChangeEmail = (text: string) => {
         setEmail(text);
-    };
-
-    const onChangePass = (text: string) => {
-        setPass(text);
-    };
-
-    const onChangeConfirmarPass = (text: string) => {
-        setConfirmarPass(text);
     };
 
     const onChangeTelemovel = (text: string) => {
@@ -140,12 +126,13 @@ export default function Perfil({ navigation }: Props) {
                     <Image style={stylemain.imag3} source={require('../assets/images/user.png')} />
                     <Text style={stylemain.title}>Perfil</Text>
                     <TextInput 
-                        style={{ marginBottom: 10 }} 
+                        style={{ marginBottom: 27 }} 
                         label="Nome" 
                         value={nome} 
                         onChangeText={onChangeNome} 
                     />
                     <TextInput 
+                        style={{  }}
                         label="Email" 
                         value={email} 
                         onChangeText={onChangeEmail} 
@@ -154,23 +141,7 @@ export default function Perfil({ navigation }: Props) {
                         O endereço de email é inválido!
                     </HelperText>
                     <TextInput 
-                        label="Password" 
-                        secureTextEntry 
-                        value={pass} 
-                        onChangeText={onChangePass} 
-                    />
-                    <HelperText type="error" visible={hasPasswordError()}>
-                        As senhas não coincidem!
-                    </HelperText>
-                    <TextInput 
-                        style={{ marginBottom: 10 }} 
-                        label="Confirmar Password" 
-                        secureTextEntry 
-                        value={confirmarPass} 
-                        onChangeText={onChangeConfirmarPass} 
-                    />
-                    <TextInput 
-                        style={{ marginBottom: 10 }} 
+                        style={{marginBottom: 10, marginTop:1}} 
                         label="Telemóvel" 
                         value={telemovel} 
                         onChangeText={onChangeTelemovel} 
