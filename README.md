@@ -7,7 +7,7 @@
 </head>
 <body>
     <div>
-        <h1>Guia de Configuração do Projeto</h1>
+     
         
         1. Alterar o Ficheiro de Configuração
         Abra o seguinte ficheiro:
