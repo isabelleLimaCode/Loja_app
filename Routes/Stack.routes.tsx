@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 
 export default function Route() {
   return (
-      <Stack.Navigator initialRouteName="test" screenOptions={{ gestureEnabled: false }}>
+      <Stack.Navigator initialRouteName="login" screenOptions={{ gestureEnabled: false }}>
        <Stack.Screen name="login" component={Login} options={{ headerShown: false }}/>
         <Stack.Screen name="Main" component={DrawerNavigator} options={{ headerShown: false }}/>
         <Stack.Screen name="test" component={testedb} options={{ headerShown: false }}/>

@@ -5,10 +5,17 @@ $password = "";
 $dbname = "Loja";
 
 // Criar conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
+
+try{
+    $conn = new mysqli($servername, $username, $password, $dbname);
+}catch(Exception $e){
+    echo "Erro na conexão";
+}
 
 // Verificar conexão
-if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+if ($conn) {
+    echo "Conexão bem sucedida";
+}else{
+    echo "Erro na conexão";
 }
 ?>

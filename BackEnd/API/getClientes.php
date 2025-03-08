@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Conectar à base de dados
 $servername = "localhost"; // Ou IP do servidor MySQL
 $username = "root"; // Substituir pelo utilizador do MySQL
-$password = ""; // Substituir pela senha do MySQL
+$password = ""; 
 $database = "loja"; // Nome da base de dados
 
 $conn = new mysqli($servername, $username, $password, $database);

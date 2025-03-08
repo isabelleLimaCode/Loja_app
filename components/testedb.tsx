@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 
+
 interface Cliente {
   cliente_id: number;
   nome: string;
@@ -10,26 +11,29 @@ interface Cliente {
 }
 
 const Clientes = () => {
-  const [clientes, setClientes] = useState<Cliente[]>([]); // Define o tipo explicitamente
-  const [loading, setLoading] = useState(true); // Para indicar que está a carregar
-  const [error, setError] = useState<string | null>(null); // Para capturar erros da API
+  const [clientes, setClientes] = useState<Cliente[]>([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState<string | null>(null); 
 
   
   useEffect(() => {
-    fetch('http://192.168.182.1:8000/api/getClientes.php') // Usa o teu IP correto
-      .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setClientes(data);
-        } else {
-          setError('Erro: Dados inválidos');
-        }
-      })
-      .catch(err => setError('Erro ao obter clientes: ' + err.message))
-      .finally(() => setLoading(false));
+    const fetchData = async () => {
+      try {
+        let response = await fetch('http://172.20.10.3:8000/api/getClientes.php');// utilizar o ip da lan do pc
+        let data = await response.json();
+        console.log('Dados recebidos:', data);
+        setClientes(data);
+      } catch (err) {
+        console.error('Erro ao obter clientes:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
   
-  
+
 
   return (
     <View style={{ paddingTop: 50}}>

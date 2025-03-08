@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS Loja;
-USE Loja;
+CREATE DATABASE IF NOT EXISTS loja;
+USE loja;
 
 -- Tabela Clientes
 CREATE TABLE IF NOT EXISTS Clientes (
@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Clientes (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     telefone VARCHAR(15),
+    password VARCHAR(100),
     data_nascimento DATE
 );
 
@@ -31,9 +32,9 @@ CREATE TABLE IF NOT EXISTS Subscricoes (
 );
 
 -- Inserir dados iniciais
-INSERT INTO Clientes (nome, email, telefone, data_nascimento) VALUES 
-('João Silva', 'joao@email.com', '912345678', '1990-05-15'),
-('Maria Santos', 'maria@email.com', '923456789', '1985-10-20');
+INSERT INTO Clientes (nome, email, telefone, password, data_nascimento) VALUES 
+('João Silva', 'joao@email.com', '912345678','1234nt', '1990-05-15'),
+('Maria Santos', 'maria@email.com', '923456789','1234nt', '1985-10-20');
 
 INSERT INTO Produtos (nome_produto, descricao, preco, estoque) VALUES 
 ('Produto A', 'Descrição do Produto A', 50.00, 10),

@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
-$username = "root"; // Altera se tiveres outro utilizador MySQL
+$username = "root"; 
 $password = "";
-$dbname = "minha_base_de_dados";
+$dbname = "loja";
 
 // Criar conexão ao MySQL
 $conn = new mysqli($servername, $username, $password);

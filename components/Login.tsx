@@ -16,57 +16,84 @@ import stylemain from '../Styles/StyleLogin';
 import { FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from "@react-navigation/stack";
 
-
-
 type RootStackParamList = {
     login: undefined;
     Main: undefined;
-  };
-  
-  type Props = {
+};
+
+type Props = {
     navigation: StackNavigationProp<RootStackParamList, "login">;
-  };
+};
 
 export default function Login({ navigation }: Props) {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [passwuser, setpassuser] = useState(''); 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async () => {
+        setIsLoading(true);  // Iniciar o carregamento
+        try {
+            let response = await fetch('http://172.20.10.3:8000/api/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Falha na requisição');
+            }
+
+            let data = await response.json();
+            console.log('Resposta do servidor:', data);
+
+            if (data.success) {
+                Alert.alert('Sucesso', data.message);
+                navigation.navigate('Main');
+            } else {
+                Alert.alert('Erro', data.message || 'Credenciais inválidas');
+            }
+        } catch (err) {
+            console.error('Erro ao autenticar:', err);
+            Alert.alert('Erro', 'Falha na conexão com o servidor');
+        } finally {
+            setIsLoading(false);  
+        }
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const handlechangedatapass = (text : string) => {
-        setpassuser(text);
-    };
-
     return (
         <KeyboardAvoidingView 
             behavior={Platform.OS == "ios" ? "padding" : "height"}  
-            style={{flex: 1,backgroundColor:'#62466B'}}>
+            style={{flex: 1, backgroundColor:'#62466B'}}>
 
-             <View style={stylemain.mainConteiner}>
-             <Image style= {stylemain.imag} source={require('../assets/images/venda2.png')}/>
-             </View>
+            <View style={stylemain.mainConteiner}>
+                <Image style={stylemain.imag} source={require('../assets/images/venda2.png')}/>
+            </View>
             <ScrollView style={stylemain.secondConteiner}>
                 <View>
                     <Text style={stylemain.textinput}> E-mail: </Text>
                     <TextInput 
                         style={stylemain.input} 
-                        placeholder="Exemplo@gmail.com"  
+                        placeholder="Exemplo@gmail.com"
+                        value={email}
+                        onChangeText={setEmail}
                     />
 
                     <Text style={stylemain.textinput}> Password: </Text>
                     <TextInput 
                         secureTextEntry={!showPassword}  
                         style={stylemain.input}  
-                        onChangeText={handlechangedatapass} 
-                        value={passwuser} // Associando o valor da senha ao estado
+                        value={password}
+                        onChangeText={setPassword}
                     />
 
                     <TouchableOpacity 
                         style={stylemain.eye} 
-                        onPress={togglePasswordVisibility} // Chamando a função ao pressionar
+                        onPress={togglePasswordVisibility} 
                     >
                         <FontAwesome5 
                             name={showPassword ? 'eye' : 'eye-slash'} 
@@ -76,7 +103,7 @@ export default function Login({ navigation }: Props) {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={[stylemain.btn, {top: 30}]} 
-                        onPress={() => navigation.navigate('Main')}
+                        onPress={handleLogin}
                         activeOpacity={0.7} 
                     >
                         <Text style={stylemain.txt}>Iniciar Sessão</Text>
