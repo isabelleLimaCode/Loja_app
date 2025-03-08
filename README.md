@@ -17,15 +17,15 @@
         2. Criar a Base de Dados
         Certifique-se de que tem o <strong>XAMPP instalado</strong> com PHP e MySQL.
         Abra o CMD e execute os seguintes comandos:
-        <pre>
+        
 cd c:\LojaApp__\loja\BackEnd\DataBase
 php setup.php
         </pre>
         
-        <h2>3. Iniciar o Servidor PHP</h2>
-        <p>Não feche o CMD!</p>
-        <p>Abra outro CMD e navegue até a pasta do projeto:</p>
-        <pre>
+        3. Iniciar o Servidor PHP
+        Não feche o CMD!
+        Abra outro CMD e navegue até a pasta do projeto:
+        
 cd c:\LojaApp__\loja
         </pre>
         <p>Execute o comando para iniciar a conexão PHP com a base de dados:</p>
