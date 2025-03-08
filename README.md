@@ -9,14 +9,14 @@
     <div>
         <h1>Guia de Configuração do Projeto</h1>
         
-        <h2>1. Alterar o Ficheiro de Configuração</h2>
-        <p>Abra o seguinte ficheiro:</p>
-        <pre>c:\LojaApp__\loja\BackEnd\config\api_url.tsx</pre>
-        <p>Substitua o IP atual pelo <strong>teu IP da máquina</strong> (Wireless LAN adapter Wi-Fi).</p>
+        1. Alterar o Ficheiro de Configuração
+        Abra o seguinte ficheiro:
+        c:\LojaApp__\loja\BackEnd\config\api_url.tsx
+        Substitua o IP atual pelo <strong>teu IP da máquina</strong> (Wireless LAN adapter Wi-Fi).
         
-        <h2>2. Criar a Base de Dados</h2>
-        <p>Certifique-se de que tem o <strong>XAMPP instalado</strong> com PHP e MySQL.</p>
-        <p>Abra o CMD e execute os seguintes comandos:</p>
+        2. Criar a Base de Dados
+        Certifique-se de que tem o <strong>XAMPP instalado</strong> com PHP e MySQL.
+        Abra o CMD e execute os seguintes comandos:
         <pre>
 cd c:\LojaApp__\loja\BackEnd\DataBase
 php setup.php
