@@ -90,6 +90,66 @@ export default function Dashboard() {
         }
     };
 
+    const removerSubscricao = async (produto_id: number) => {
+    if (!userId) {
+        Alert.alert('Erro', 'ID do usuário não encontrado');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://172.20.10.3:8000/api/deleteSubscri.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cliente_id: userId,
+                produto_id: produto_id,
+            }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            Alert.alert('Sucesso', 'Subscrição removida com sucesso');
+            loadProduct();  // Atualiza a lista de produtos
+        } else {
+            Alert.alert('Erro', data.message || 'Erro ao remover subscrição');
+        }
+    } catch (error) {
+        console.error('Erro ao remover subscrição:', error);
+        Alert.alert('Erro', 'Falha na conexão com o servidor');
+    }
+};
+
+const excluirProduto = async (produto_id: number) => {
+    if (!userId) {
+        Alert.alert('Erro', 'ID do usuário não encontrado');
+        return;
+    }
+
+    try {
+        const response = await fetch('http://172.20.10.3:8000/api/deleteProduto.php', { // Atualize o URL do endpoint conforme necessário
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                produto_id: produto_id, // Passa o produto_id para o servidor
+            }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            Alert.alert('Sucesso', 'Produto excluído com sucesso');
+            loadProduct();  // Atualiza a lista de produtos
+        } else {
+            Alert.alert('Erro', data.message || 'Erro ao excluir o produto');
+        }
+    } catch (error) {
+        console.error('Erro ao excluir o produto:', error);
+        Alert.alert('Erro', 'Falha na conexão com o servidor');
+    }
+};
     
 
     // Função para subscrever ao produto
@@ -139,8 +199,8 @@ export default function Dashboard() {
     
 
     return (
-        <View style={{ flex: 1, paddingTop: 50, backgroundColor: '#f5f5f5' }}>
-            <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginBottom: 10, color: '#333' }}>
+        <View style={{ flex: 1, paddingTop: 10, backgroundColor: '#f5f5f5' }}>
+            <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: '#333' }}>
                 Produtos
             </Text>
             
@@ -172,9 +232,14 @@ export default function Dashboard() {
                                     {subscricoes.includes(item.produto_id) ? 'Subscrito' : 'Subscrever'}
                                 </Button>
 
-                                <Button style={{ backgroundColor: '#e61919' }} mode="contained" onPress={() => console.log("Eliminou", item.nome_produto)}>
+                                <Button 
+                                    style={{ backgroundColor: '#e61919' }} 
+                                    mode="contained" 
+                                    onPress={() => excluirProduto(item.produto_id)}  // Chama a função de exclusão
+                                >
                                     Eliminar
                                 </Button>
+
                             </Card.Actions>
                         </Card>
                     )}

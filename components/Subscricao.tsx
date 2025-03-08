@@ -4,7 +4,8 @@ import {
     View,
     FlatList,
     ActivityIndicator,
-    Alert
+    Alert,
+    Image
 } from 'react-native'; 
 import { Card, Title, Paragraph, Button } from 'react-native-paper'; 
 import { useNavigation } from '@react-navigation/native'; 
@@ -30,6 +31,7 @@ export default function Subscricao() {
     const [isLoading, setIsLoading] = useState(false);
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
+    const [alertShown, setAlertShown] = useState(false);  // Controla se o alerta foi mostrado
 
     useEffect(() => {
         const loadUserData = async () => {
@@ -81,6 +83,11 @@ export default function Subscricao() {
     
             if (data.success && Array.isArray(data.produtos)) {
                 setProdutos(data.produtos);
+                // Verifica se não há produtos e alerta o usuário apenas uma vez
+                if (data.produtos.length === 0 && !alertShown) {
+                    //Alert.alert('Informação', 'Não há produtos subscritos.');
+                    setAlertShown(true);  // Evita alertas múltiplos
+                }
             } else {
                 Alert.alert('Erro', data.message || 'Erro ao carregar produtos.');
             }
@@ -132,6 +139,19 @@ export default function Subscricao() {
             
             {isLoading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
+            ) : produtos.length === 0 ? (
+                <View>
+                <Image style={{
+                              width: 350,
+                              height: 350,
+                              borderRadius: 20,
+                              marginHorizontal: 20,
+                            }} source={require('../assets/images/NoData.png')} />
+                <Text style={{ textAlign: 'center', fontSize: 18, color: '#888' }}>
+                    Não há produtos subscritos.
+                </Text>
+                </View>
+
             ) : (
                 <FlatList
                     data={produtos}
