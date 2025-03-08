@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Definir o tipo Produto
 type Produto = {
+    subscricao_id: number;
     produto_id: number;
     nome_produto: string;
     descricao: string;
@@ -31,18 +32,20 @@ export default function Dashboard() {
     const [userId, setUserId] = useState<string | null>(null);
     const [produtos, setProdutos] = useState<Produto[]>([]); // Definir o tipo como um array de Produtos
     const [subscricoes, setSubscricoes] = useState<number[]>([]); // verificar se o produto está subscrito
+    const [isUserLoaded, setIsUserLoaded] = useState(false);
 
     useEffect(() => {
         const loadUserData = async () => {
             const storedUserId = await AsyncStorage.getItem('user_id');
             if (storedUserId) {
                 setUserId(storedUserId);
-                console.log('User ID recuperado:', storedUserId); // Debugging
+                console.log('User ID recuperado:', storedUserId);
             } else {
                 console.error('User ID não encontrado no AsyncStorage');
             }
+            setIsUserLoaded(true); // Marcar que o userId foi carregado
         };
-
+    
         loadUserData();
     }, []);
 
@@ -92,12 +95,8 @@ export default function Dashboard() {
     // Função para subscrever ao produto
     const subscreverProduto = async (produto_id: number) => {
         if (!userId) {
+            console.log('userId não está definido:', userId);
             Alert.alert('Erro', 'Dados incompletos. Não foi possível obter o ID do utilizador.');
-            return;
-        }
-    
-        if (subscricoes.includes(produto_id)) {
-            Alert.alert('Aviso', 'Já estás subscrito a este produto!');
             return;
         }
     
@@ -105,21 +104,19 @@ export default function Dashboard() {
         const data_subscricao = new Date().toISOString().split('T')[0]; // Formato correto para a data
     
         try {
-            // Verifique os valores de userId, produto_id, data_subscricao e status antes de enviar
-            console.log("userId", userId);
+            console.log("userId", userId); // Verificar se o userId está presente
             console.log("produto_id", produto_id);
             console.log("data_subscricao", data_subscricao);
             console.log("status", status);
-   
-            // Tente enviar os dados como números
-            const response = await fetch('http://172.20.10.3:8000/api/addSubscri.php', {
+    
+            const response = await fetch(`http://172.20.10.3:8000/api/addSubscri.php?id=${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userId: Number(userId), // Garantir que seja um número
-                    produto_id: Number(produto_id), // Garantir que seja um número
+                    cliente_id: userId, 
+                    produto_id,
                     data_subscricao,
                     status,
                 }),
@@ -127,7 +124,6 @@ export default function Dashboard() {
     
             const data = await response.json();
     
-            console.log("Resposta da API:", data); // Log para depuração
             if (data.success) {
                 Alert.alert('Sucesso', 'Subscrição realizada com sucesso!');
                 loadProduct(); // Atualiza os produtos e subscrições
@@ -139,7 +135,6 @@ export default function Dashboard() {
             Alert.alert('Erro', 'Falha na conexão com o servidor');
         }
     };
-   
     
     
 
@@ -168,10 +163,10 @@ export default function Dashboard() {
                                 <Button style={{ backgroundColor: '#62466B' }} mode="contained" onPress={() => navigation.navigate('EditarProduto', { produto: item })}>
                                     Editar
                                 </Button>
-                                <Button 
-                                    style={{ backgroundColor: subscricoes.includes(item.produto_id) ? '#ccc' : '#62466B' }} 
-                                    mode="contained" 
-                                    disabled={subscricoes.includes(item.produto_id)}
+                                <Button
+                                    style={{ backgroundColor: subscricoes.includes(item.produto_id) ? '#ccc' : '#62466B' }}
+                                    mode="contained"
+                                    disabled={subscricoes.includes(item.produto_id) || !isUserLoaded}
                                     onPress={() => subscreverProduto(item.produto_id)}
                                 >
                                     {subscricoes.includes(item.produto_id) ? 'Subscrito' : 'Subscrever'}

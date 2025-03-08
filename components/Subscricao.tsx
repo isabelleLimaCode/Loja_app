@@ -91,7 +91,38 @@ export default function Subscricao() {
             setIsLoading(false);
         }
     };
-    
+
+    // Função para remover a subscrição do produto
+    const removeSubscricao = async (produto_id: number) => {
+        if (!userId) {
+            Alert.alert('Erro', 'ID do usuário não encontrado');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://172.20.10.3:8000/api/deleteSubscri.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cliente_id: userId,
+                    produto_id: produto_id,
+                }),
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                Alert.alert('Sucesso', 'Subscrição removida com sucesso');
+                loadProduct(userId);  // Atualiza a lista de produtos subscritos
+            } else {
+                Alert.alert('Erro', data.message || 'Erro ao remover subscrição');
+            }
+        } catch (error) {
+            console.error('Erro ao remover subscrição:', error);
+            Alert.alert('Erro', 'Falha na conexão com o servidor');
+        }
+    };
 
     return (
         <View style={{ flex: 1, paddingTop: 50, backgroundColor: '#f5f5f5' }}>
@@ -104,7 +135,7 @@ export default function Subscricao() {
             ) : (
                 <FlatList
                     data={produtos}
-                    keyExtractor={(item, index) => item.produto_id ? item.produto_id.toString() : `fallback-key-${index}`}// evitar key duplicada
+                    keyExtractor={(item, index) => item.produto_id ? item.produto_id.toString() : `fallback-key-${index}`}
                     renderItem={({ item }) => (
                         <Card style={{ margin: 10, borderRadius: 10, overflow: "hidden", elevation: 4 }}>
                             <Card.Cover source={require('../assets/images/venda2.png')} style={{ height: 150 }} />
@@ -115,8 +146,8 @@ export default function Subscricao() {
                                 </Paragraph>
                             </Card.Content>
                             <Card.Actions>
-                                <Button style={{ backgroundColor: '#62466B' }} mode="contained" onPress={() => navigation.navigate('EditarProduto', { produto: item })}>
-                                    Editar
+                                <Button style={{ backgroundColor: '#e61919' }} mode="contained" onPress={() => removeSubscricao(item.produto_id)}>
+                                    Remover
                                 </Button>
                             </Card.Actions>
                         </Card>
