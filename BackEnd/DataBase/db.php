@@ -1,21 +1,14 @@
 <?php
 $servername = "localhost";
-$username = "root"; 
+$username = "root";
 $password = "";
 $dbname = "Loja";
 
-// Criar conexão
+// Criar a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-try{
-    $conn = new mysqli($servername, $username, $password, $dbname);
-}catch(Exception $e){
-    echo "Erro na conexão";
-}
-
-// Verificar conexão
-if ($conn) {
-    echo "Conexão bem sucedida";
-}else{
-    echo "Erro na conexão";
+// Verificar se há erro na conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
 }
 ?>

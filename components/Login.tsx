@@ -15,6 +15,7 @@ import {
 import stylemain from '../Styles/StyleLogin';
 import { FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from "@react-navigation/stack";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type RootStackParamList = {
     login: undefined;
@@ -32,34 +33,43 @@ export default function Login({ navigation }: Props) {
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
-        setIsLoading(true);  // Iniciar o carregamento
+        setIsLoading(true);
         try {
             let response = await fetch('http://172.20.10.3:8000/api/login.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
-
-            if (!response.ok) {
-                throw new Error('Falha na requisição');
-            }
-
+    
             let data = await response.json();
             console.log('Resposta do servidor:', data);
-
-            if (data.success) {
-                Alert.alert('Sucesso', data.message);
-                navigation.navigate('Main');
+    
+            // Verifique se 'user' existe dentro da resposta antes de tentar acessar suas propriedades
+            if (data.success && data.user) {
+                const { cliente_id, nome, email } = data.user;
+                console.log('Dados do usuário:', cliente_id, nome, email);
+    
+                if (cliente_id && nome && email) {
+                    // Salve as informações do usuário no AsyncStorage para futuras verificações
+                    await AsyncStorage.setItem('user_id', cliente_id.toString());
+                    await AsyncStorage.setItem('user_email', email);
+    
+                    Alert.alert('Sucesso', data.message);
+                    navigation.navigate('Main');
+                } else {
+                    Alert.alert('Erro', 'Dados de usuário incompletos');
+                }
             } else {
-                Alert.alert('Erro', data.message || 'Credenciais inválidas');
+                Alert.alert('Erro', data.message || 'Dados de login inválidos');
             }
         } catch (err) {
             console.error('Erro ao autenticar:', err);
             Alert.alert('Erro', 'Falha na conexão com o servidor');
         } finally {
-            setIsLoading(false);  
+            setIsLoading(false);
         }
     };
+    
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
