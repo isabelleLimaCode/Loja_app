@@ -13,6 +13,10 @@
         }
         h1 {
             color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #34495e;
         }
         code {
             background-color: #ecf0f1;
@@ -25,6 +29,8 @@
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
+            font-family: Consolas, monospace;
+            line-height: 1.5;
         }
         .container {
             max-width: 800px;
@@ -33,6 +39,10 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
         }
     </style>
 </head>
