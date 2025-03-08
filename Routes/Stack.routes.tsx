@@ -5,6 +5,7 @@ import Login from "@/components/Login";
 import DrawerNavigator from "./Drawer.routes";
 import testedb from "@/components/testedb";
 import EditarProduto from "@/components/EditarProduto";
+import Aut2F from "@/components/Aut2F";
 
 // Definir o tipo Produto
 type Produto = {
@@ -19,6 +20,7 @@ type RootStackParamList = {
   login: undefined;
   Main: undefined;
   test: undefined;
+  aut:undefined;
   EditarProduto: { produto: Produto }; // Definir o tipo para EditarProduto
 };
 
@@ -27,9 +29,29 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function Route() {
   return (
       <Stack.Navigator initialRouteName="login" screenOptions={{ gestureEnabled: false }}>
-        <Stack.Screen name="login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Main" component={DrawerNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="test" component={testedb} options={{ headerShown: false }} />
+        <Stack.Screen 
+        name="login" 
+        component={Login} 
+        options={{ headerShown: false }} 
+        />
+
+        <Stack.Screen 
+        name="Main" 
+        component={DrawerNavigator} 
+        options={{ headerShown: false }} 
+        />
+
+        <Stack.Screen 
+        name="aut"
+        component={Aut2F} 
+        options={{ headerShown: false }} 
+        />
+
+        <Stack.Screen 
+        name="test" 
+        component={testedb} 
+        options={{ headerShown: false }} 
+        />
         <Stack.Screen 
           name="EditarProduto" 
           component={EditarProduto} 

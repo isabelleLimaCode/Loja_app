@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type RootStackParamList = {
     login: undefined;
     Main: undefined;
+    aut: undefined;
 };
 
 type Props = {
@@ -55,7 +56,7 @@ export default function Login({ navigation }: Props) {
                     await AsyncStorage.setItem('user_email', email);
     
                     Alert.alert('Sucesso', data.message);
-                    navigation.navigate('Main');
+                    navigation.navigate('aut');
                 } else {
                     Alert.alert('Erro', 'Dados de usuário incompletos');
                 }

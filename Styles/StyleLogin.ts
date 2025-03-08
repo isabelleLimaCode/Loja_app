@@ -105,6 +105,12 @@ export default StyleSheet.create({
         top:15,
         left:10
     },
+    imag7:{
+        width:200,
+        height:200,
+        alignSelf:'center',
+        marginTop:60
+    },
 
     imag:{
         width:320,
