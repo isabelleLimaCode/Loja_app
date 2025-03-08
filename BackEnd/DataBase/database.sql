@@ -34,12 +34,21 @@ CREATE TABLE IF NOT EXISTS Subscricoes (
 -- Inserir dados iniciais
 INSERT INTO Clientes (nome, email, telefone, password, data_nascimento) VALUES 
 ('João Silva', 'joao@email.com', '912345678','1234nt', '1990-05-15'),
-('Maria Santos', 'maria@email.com', '923456789','1234nt', '1985-10-20');
+('Maria Santos', 'maria@email.com', '923456789','1234nt', '1985-10-20'),
+('Carlos Pereira', 'carlos@email.com', '934567890','abcd1234', '1992-08-30'),
+('Ana Oliveira', 'ana@email.com', '945678901','senha123', '1988-12-12'),
+('Luís Costa', 'luis@email.com', '956789012','1234abcd', '1995-02-25');
 
 INSERT INTO Produtos (nome_produto, descricao, preco, estoque) VALUES 
 ('Produto A', 'Descrição do Produto A', 50.00, 10),
-('Produto B', 'Descrição do Produto B', 100.00, 5);
+('Produto B', 'Descrição do Produto B', 100.00, 5),
+('Produto C', 'Descrição do Produto C', 150.00, 7),
+('Produto D', 'Descrição do Produto D', 200.00, 3),
+('Produto E', 'Descrição do Produto E', 75.00, 15);
 
 INSERT INTO Subscricoes (cliente_id, produto_id, data_subscricao, status) VALUES 
 (1, 1, '2024-03-08', 'Ativo'),
-(2, 2, '2024-03-08', 'Pendente');
+(2, 2, '2024-03-08', 'Pendente'),
+(3, 3, '2024-03-09', 'Ativo'),
+(4, 4, '2024-03-10', 'Cancelado'),
+(5, 5, '2024-03-11', 'Ativo');

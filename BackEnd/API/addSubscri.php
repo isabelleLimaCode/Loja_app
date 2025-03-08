@@ -20,15 +20,15 @@ $produto_id = $data['produto_id'];
 $data_subscricao = $data['data_subscricao'];
 $status = $data['status'];
 
-// Verificar se o cliente já está subscrito ao produto
-$query_check = "SELECT * FROM Subscricoes WHERE cliente_id = ? AND produto_id = ? AND status = 'ativa'";
+// Verificar se o cliente já está subscrito ao produto com qualquer status (ativa ou não)
+$query_check = "SELECT * FROM Subscricoes WHERE cliente_id = ? AND produto_id = ?";
 $stmt_check = $conn->prepare($query_check);
 $stmt_check->bind_param("ii", $cliente_id, $produto_id);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 
 if ($result_check->num_rows > 0) {
-    // Se já existir uma subscrição ativa, retornar mensagem
+    // Se já existir uma subscrição (com qualquer status), retornar mensagem
     echo json_encode(['success' => false, 'message' => 'Você já está subscrito a este produto']);
     exit();
 }

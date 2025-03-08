@@ -17,9 +17,18 @@ if (!isset($data['produto_id'])) {
 // Atribuir os dados recebidos a variáveis
 $produto_id = $data['produto_id'];
 
-// Remover o produto da base de dados
-$query = "DELETE FROM Produtos WHERE produto_id = ?";  // Tabela de Produtos
+// Primeiro, remover as subscrições relacionadas ao produto
+$deleteSubscricoesQuery = "DELETE FROM subscricoes WHERE produto_id = ?";
+$stmtSubscricoes = $conn->prepare($deleteSubscricoesQuery);
+$stmtSubscricoes->bind_param("i", $produto_id);
 
+if (!$stmtSubscricoes->execute()) {
+    echo json_encode(['success' => false, 'message' => 'Erro ao remover subscrições']);
+    exit();
+}
+
+// Agora, remover o produto da base de dados
+$query = "DELETE FROM Produtos WHERE produto_id = ?";  // Tabela de Produtos
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $produto_id);
 
@@ -32,5 +41,6 @@ if ($stmt->execute()) {
 
 // Fechar a declaração e a conexão
 $stmt->close();
+$stmtSubscricoes->close();
 $conn->close();
 ?>

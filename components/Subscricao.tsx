@@ -132,7 +132,7 @@ export default function Subscricao() {
     };
 
     return (
-        <View style={{ flex: 1, paddingTop: 50, backgroundColor: '#f5f5f5' }}>
+        <View style={{ flex: 1, paddingTop: 10, backgroundColor: '#f5f5f5' }}>
             <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginBottom: 10, color: '#333' }}>
                 Produtos Subscritos
             </Text>
@@ -155,7 +155,7 @@ export default function Subscricao() {
             ) : (
                 <FlatList
                     data={produtos}
-                    keyExtractor={(item, index) => item.produto_id ? item.produto_id.toString() : `fallback-key-${index}`}
+                    keyExtractor={(item, index) => `${item.produto_id}-${index}`}// gera uma chave excluisva para cada item porque o id é sempre o mesmo
                     renderItem={({ item }) => (
                         <Card style={{ margin: 10, borderRadius: 10, overflow: "hidden", elevation: 4 }}>
                             <Card.Cover source={require('../assets/images/venda2.png')} style={{ height: 150 }} />
