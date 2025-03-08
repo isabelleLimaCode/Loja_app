@@ -1,50 +1,69 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Configuração</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 5px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guia de Configuração do Projeto</h1>
+        
+        <h2>1. Alterar o Ficheiro de Configuração</h2>
+        <p>Abre o seguinte ficheiro:</p>
+        <pre>c:\LojaApp__\loja\BackEnd\config\api_url.tsx</pre>
+        <p>Substitui o IP atual pelo <strong>teu IP da máquina</strong> (Wireless LAN adapter Wi-Fi).</p>
+        
+        <h2>2. Criar a Base de Dados</h2>
+        <p>Certifica-te de que tens o <strong>XAMPP instalado</strong> com PHP e MySQL.</p>
+        <p>Abre o CMD e executa os seguintes comandos:</p>
+        <pre>
+cd c:\LojaApp__\loja\BackEnd\DataBase
+php setup.php
+        </pre>
+        
+        <h2>3. Iniciar o Servidor PHP</h2>
+        <p>Não feches o CMD!</p>
+        <p>Abre outro CMD e navega até a pasta do projeto:</p>
+        <pre>
+cd c:\LojaApp__\loja
+        </pre>
+        <p>Executa o comando para iniciar a conexão PHP com a base de dados:</p>
+        <pre>
+php -S 0.0.0.0:8000 -t backend
+        </pre>
+        <p>Após esses passos, a API estará em funcionamento!</p>
+    </div>
+</body>
+</html>
