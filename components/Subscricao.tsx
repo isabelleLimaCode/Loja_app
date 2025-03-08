@@ -11,6 +11,7 @@ import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'; 
 import { StackNavigationProp } from '@react-navigation/stack'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../BackEnd/config/api_url';
 
 // Definir o tipo Produto
 type Produto = {
@@ -66,7 +67,7 @@ export default function Subscricao() {
     
         setIsLoading(true);
         try {
-            const url = `http://172.20.10.3:8000/api/getSubscricoes.php?cliente_id=${id}`;
+            const url = `${API_URL}/api/getSubscricoes.php?cliente_id=${id}`;
             console.log('Buscando produtos em:', url);
     
             let response = await fetch(url, { method: 'GET' });
@@ -107,7 +108,7 @@ export default function Subscricao() {
         }
 
         try {
-            const response = await fetch('http://172.20.10.3:8000/api/deleteSubscri.php', {
+            const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

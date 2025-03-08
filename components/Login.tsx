@@ -16,7 +16,7 @@ import stylemain from '../Styles/StyleLogin';
 import { FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from "@react-navigation/stack";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { API_URL } from '../BackEnd/config/api_url';
 type RootStackParamList = {
     login: undefined;
     Main: undefined;
@@ -34,24 +34,29 @@ export default function Login({ navigation }: Props) {
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
+        console.log('Iniciando login...');
         setIsLoading(true);
         try {
-            let response = await fetch('http://172.20.10.3:8000/api/login.php', {
+            console.log('Fazendo requisição para a API...');
+            let response = await fetch(`${API_URL}/api/login.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
     
+            console.log('Resposta recebida da API:', response);
+            if (!response.ok) {
+                throw new Error(`Erro na requisição: ${response.status}`);
+            }
+    
             let data = await response.json();
             console.log('Resposta do servidor:', data);
     
-            // Verifique se 'user' existe dentro da resposta antes de tentar acessar suas propriedades
             if (data.success && data.user) {
+                console.log('Usuário autenticado com sucesso:', data.user);
                 const { cliente_id, nome, email } = data.user;
-                console.log('Dados do usuário:', cliente_id, nome, email);
     
                 if (cliente_id && nome && email) {
-                    // Salve as informações do usuário no AsyncStorage para futuras verificações
                     await AsyncStorage.setItem('user_id', cliente_id.toString());
                     await AsyncStorage.setItem('user_email', email);
     
@@ -129,7 +134,7 @@ export default function Login({ navigation }: Props) {
             </ScrollView>
 
             {isLoading && (
-                <View style={{ position: 'absolute', alignSelf: 'center', top: '50%' }}>
+                <View style={{ position: 'absolute', alignSelf: 'center',top:700}}>
                     <ActivityIndicator size="large" color="#fff" />
                     <Text style={{ color: '#fff', fontWeight: 'bold' }}> Verificando dados ...</Text>
                 </View>

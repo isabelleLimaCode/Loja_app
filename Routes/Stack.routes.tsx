@@ -3,7 +3,6 @@ import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from "@/components/Login";
 import DrawerNavigator from "./Drawer.routes";
-import testedb from "@/components/testedb";
 import EditarProduto from "@/components/EditarProduto";
 import Aut2F from "@/components/Aut2F";
 
@@ -47,11 +46,6 @@ export default function Route() {
         options={{ headerShown: false }} 
         />
 
-        <Stack.Screen 
-        name="test" 
-        component={testedb} 
-        options={{ headerShown: false }} 
-        />
         <Stack.Screen 
           name="EditarProduto" 
           component={EditarProduto} 

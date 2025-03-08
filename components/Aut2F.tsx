@@ -2,12 +2,38 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Para navegação
 import stylemain from '../Styles/StyleLogin';
+import { StackNavigationProp } from "@react-navigation/stack";
+
+// Definindo o tipo para as rotas
+type RootStackParamList = {
+  login: undefined;
+  Main: undefined;
+  test: undefined;
+  aut: undefined;
+};
+
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList, 'aut'>; // Especificando a navegação para a tela 'aut'
+};
+
+// Função simulada para enviar a mensagem via API
+const sendWhatsappMessage = async (phone: string, message: string) => {
+  console.log(`Simulando envio de mensagem para ${phone}: ${message}`);
+
+  // Simulando uma resposta da API com sucesso
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+};
 
 export default function Aut2F() {
   const [otp, setOtp] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const navigation = useNavigation(); // Instância de navegação
+  
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'aut'>>(); // Usando a navegação com tipo correto
 
   const handleVerifyOtp = () => {
     if (otp.length !== 6) {
@@ -16,20 +42,26 @@ export default function Aut2F() {
     }
     setIsLoading(true);
     setError('');
-    // Simulação de uma chamada de verificação (substitua com a lógica de sua API)
+
     setTimeout(() => {
-      if (otp === '123456') {  // Simule um OTP válido
-        setIsLoading(false);
-        alert('Autenticação bem-sucedida!');
-      } else {
-        setIsLoading(false);
-        setError('Código inválido. Tente novamente.');
-      }
+      // Simulando a chamada à API
+      sendWhatsappMessage('+351910066962', 'O seu código de autenticação foi verificado com sucesso!')
+        .then(() => {
+          alert('Código verificado com sucesso!'); // Feedback para o usuário
+          navigation.navigate('Main'); // Navega para a tela 'Main'
+        })
+        .catch((err) => {
+          console.log('Erro ao simular envio de mensagem:', err);
+          setError('Erro ao enviar a mensagem.');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }, 1500);
   };
 
   const handleCancel = () => {
-    navigation.goBack(); // Retorna para a tela anterior (provavelmente o login)
+    navigation.goBack(); // Retorna para a tela anterior 
   };
 
   return (

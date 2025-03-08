@@ -10,7 +10,7 @@ import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native'; // Hook para navegação
 import { StackNavigationProp } from '@react-navigation/stack'; // Importando o tipo correto
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { API_URL } from '../BackEnd/config/api_url';
 // Definir o tipo Produto
 type Produto = {
     subscricao_id: number;
@@ -62,7 +62,7 @@ export default function Dashboard() {
     const loadProduct = async () => {
         setIsLoading(true);
         try {
-            let response = await fetch(`http://172.20.10.3:8000/api/getProdutos.php`, {
+            let response = await fetch(`${API_URL}/api/getProdutos.php`, {
                 method: 'GET',
             });
 
@@ -97,7 +97,7 @@ export default function Dashboard() {
     }
 
     try {
-        const response = await fetch('http://172.20.10.3:8000/api/deleteSubscri.php', {
+        const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const excluirProduto = async (produto_id: number) => {
     }
 
     try {
-        const response = await fetch('http://172.20.10.3:8000/api/deleteProduto.php', { // Atualize o URL do endpoint conforme necessário
+        const response = await fetch(`${API_URL}/api/deleteProduto.php`, { // Atualize o URL do endpoint conforme necessário
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ const excluirProduto = async (produto_id: number) => {
             console.log("data_subscricao", data_subscricao);
             console.log("status", status);
     
-            const response = await fetch(`http://172.20.10.3:8000/api/addSubscri.php?id=${userId}`, {
+            const response = await fetch(`${API_URL}/api/addSubscri.php?id=${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

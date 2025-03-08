@@ -14,6 +14,7 @@ import { HelperText, TextInput, Button } from 'react-native-paper';
 import stylemain from '../Styles/StyleLogin';
 import { CommonActions } from '@react-navigation/native'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../BackEnd/config/api_url';
 
 type RootStackParamList = {
     login: undefined;
@@ -52,7 +53,7 @@ export default function Perfil({ navigation }: Props) {
         console.log('Carregando perfil do utilizador:', id);
         setIsLoading(true);
         try {
-            let response = await fetch(`http://172.20.10.3:8000/api/user_profile.php?id=${id}`, {
+            let response = await fetch(`${API_URL}/api/user_profile.php?id=${id}`, {
                 method: 'GET',
             });
     
@@ -91,7 +92,7 @@ export default function Perfil({ navigation }: Props) {
 
         setIsLoading(true);
         try {
-            const response = await fetch(`http://172.20.10.3:8000/api/updatePerfil.php`, {
+            const response = await fetch(`${API_URL}/api/updatePerfil.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import { Text, View, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'r
 import { StackScreenProps } from '@react-navigation/stack'; // Importar para tipar as props corretamente
 import { TextInput, Button } from 'react-native-paper';
 import stylemain from '../Styles/StyleLogin'; // Estilos
+import { API_URL } from '../BackEnd/config/api_url';// Importar a URL da API
 
 // Definir o tipo Produto
 type Produto = {
@@ -42,7 +43,7 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
   
     // Enviar os dados via requisição POST
     try {
-      const response = await fetch('http://172.20.10.3:8000/api/updateproduto.php', {
+      const response = await fetch(`${API_URL}/api/updateproduto.php`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
