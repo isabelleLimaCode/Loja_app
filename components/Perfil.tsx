@@ -134,7 +134,7 @@ export default function Perfil({ navigation }: Props) {
         <KeyboardAvoidingView 
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
             style={{ flex: 1 }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', top:-20 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center',top:-50 }}>
                 <View>
                     <Image style={stylemain.imag3} source={require('../assets/images/user.png')} />
                     <Text style={stylemain.title}>Perfil</Text>
