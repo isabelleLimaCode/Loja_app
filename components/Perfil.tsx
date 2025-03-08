@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { 
     Text, 
     View,
@@ -27,8 +27,6 @@ type Props = {
 export default function Perfil({ navigation }: Props) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-    const [confirmarPass, setConfirmarPass] = useState('');
     const [telemovel, setTelemovel] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -57,11 +55,8 @@ export default function Perfil({ navigation }: Props) {
                 method: 'GET',
             });
     
-            // Verificar o tipo de conteúdo da resposta
             const contentType = response.headers.get('Content-Type');
-            console.log('Tipo de conteúdo:', contentType);
     
-            // Se o tipo de conteúdo não for JSON, exiba a resposta como texto
             if (!contentType || !contentType.includes('application/json')) {
                 const text = await response.text();
                 console.error('Resposta inesperada do servidor:', text);
@@ -69,13 +64,12 @@ export default function Perfil({ navigation }: Props) {
             }
     
             let data = await response.json();
-            console.log('Dados do perfil:', data);
     
             if (data.success && data.user) {
-                const { nome, telefone, email ,password} = data.user;
+                const { nome, telefone, email } = data.user;
                 setNome(nome);
                 setTelemovel(telefone);
-                setEmail(email); // O email será atualizado se houver algum novo
+                setEmail(email);
             } else {
                 Alert.alert('Erro', data.message || 'Erro ao carregar os dados do perfil');
             }
@@ -86,24 +80,42 @@ export default function Perfil({ navigation }: Props) {
             setIsLoading(false);
         }
     };
-    
 
-    // Verifica se o email contém "@" 
-    const hasEmailError = () => {
-        return !email.includes('@');
-    };
+    // Função para atualizar os dados do perfil
+    const updateProfile = async () => {
+        if (!nome || !email || !telemovel) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos');
+            return;
+        }
 
+        setIsLoading(true);
+        try {
+            const response = await fetch(`http://172.20.10.3:8000/api/updatePerfil.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    nome: nome,
+                    email: email,
+                    telefone: telemovel,
+                }),
+            });
 
-    const onChangeNome = (text: string) => {
-        setNome(text);
-    };
-
-    const onChangeEmail = (text: string) => {
-        setEmail(text);
-    };
-
-    const onChangeTelemovel = (text: string) => {
-        setTelemovel(text);
+            const data = await response.json();
+            if (data.success) {
+                Alert.alert('Sucesso', 'Perfil atualizado com sucesso');
+                loadUserProfile(userId!); // Recarregar os dados do perfil após atualização
+            } else {
+                Alert.alert('Erro', data.message || 'Falha ao atualizar perfil');
+            }
+        } catch (err) {
+            console.error('Erro ao atualizar perfil:', err);
+            Alert.alert('Erro', 'Falha na conexão com o servidor');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const reset = () => {
@@ -121,7 +133,7 @@ export default function Perfil({ navigation }: Props) {
         <KeyboardAvoidingView 
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
             style={{ flex: 1 }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' , top:-20}}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', top:-20 }}>
                 <View>
                     <Image style={stylemain.imag3} source={require('../assets/images/user.png')} />
                     <Text style={stylemain.title}>Perfil</Text>
@@ -129,32 +141,37 @@ export default function Perfil({ navigation }: Props) {
                         style={{ marginBottom: 27 }} 
                         label="Nome" 
                         value={nome} 
-                        onChangeText={onChangeNome} 
+                        onChangeText={setNome} 
                     />
                     <TextInput 
                         style={{  }}
                         label="Email" 
                         value={email} 
-                        onChangeText={onChangeEmail} 
+                        onChangeText={setEmail} 
                     />
-                    <HelperText type="error" visible={hasEmailError()}>
+                    <HelperText type="error" visible={!email.includes('@')}>
                         O endereço de email é inválido!
                     </HelperText>
                     <TextInput 
-                        style={{marginBottom: 10, marginTop:1}} 
+                        style={{ marginBottom: 10, marginTop: 1 }} 
                         label="Telemóvel" 
                         value={telemovel} 
-                        onChangeText={onChangeTelemovel} 
+                        onChangeText={setTelemovel} 
                     />
                 </View>
-                <Button style={{backgroundColor:'#B5C2B7', width:250,alignSelf:'center', marginTop:10}} mode="contained" onPress={() => console.log("Eliminou", "teste")}>
+                <Button 
+                    style={{ backgroundColor: '#B5C2B7', width: 250, alignSelf: 'center', marginTop: 10 }} 
+                    mode="contained" 
+                    onPress={updateProfile}>
                     Atualizar Perfil
                 </Button>
-                <Button style={{backgroundColor:'#B5C2B7', width:250,alignSelf:'center', marginTop:8}} mode="contained" onPress={reset}>
+                <Button 
+                    style={{ backgroundColor: '#B5C2B7', width: 250, alignSelf: 'center', marginTop: 8 }} 
+                    mode="contained" 
+                    onPress={reset}>
                     Sair
                 </Button>
             </ScrollView>
-            
         </KeyboardAvoidingView>
     );
 }
