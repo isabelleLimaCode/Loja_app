@@ -140,13 +140,13 @@ export default function Perfil({ navigation }: Props) {
                     <Image style={stylemain.imag3} source={require('../assets/images/user.png')} />
                     <Text style={stylemain.title}>Perfil</Text>
                     <TextInput 
-                        style={{ marginBottom: 27 }} 
+                        style={{ marginBottom: 27 , width:360,alignSelf:'center', borderRadius:2}} 
                         label="Nome" 
                         value={nome} 
                         onChangeText={setNome} 
                     />
                     <TextInput 
-                        style={{  }}
+                        style={{ width:360,alignSelf:'center', borderRadius:2 }}
                         label="Email" 
                         value={email} 
                         onChangeText={setEmail} 
@@ -155,7 +155,7 @@ export default function Perfil({ navigation }: Props) {
                         O endereço de email é inválido!
                     </HelperText>
                     <TextInput 
-                        style={{ marginBottom: 10, marginTop: 1 }} 
+                        style={{ marginBottom: 10, marginTop: 1,width:360,alignSelf:'center', borderRadius:2 }} 
                         label="Telemóvel" 
                         value={telemovel} 
                         onChangeText={setTelemovel} 
