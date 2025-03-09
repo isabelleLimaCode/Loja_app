@@ -38,13 +38,16 @@ Abra o **CMD** (não use o PowerShell) e navegue até a pasta do banco de dados:
 cd c:\LojaApp__\loja\BackEnd\DataBase
 
 Execute o seguinte comando para criar a base de dados:
+
 php setup.php
 
 ### 5. Iniciar o Servidor PHP
 No **CMD**, navegue até a pasta do servidor PHP:
 
 cd C:\Users\isabe\LojaApp__\Loja
+
 Execute o comando para iniciar o servidor PHP:
+
 php -S 0.0.0.0:8000 -t backend
 
 ### 6. Iniciar a Aplicação no Visual Studio Code
