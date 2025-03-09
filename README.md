@@ -1,10 +1,17 @@
 # Guia de Instalação e Execução
+
 ## Aplicações Necessárias
 
 - **Expo**: Para rodar a aplicação Expo.
 - **Composer**: Para gerenciar dependências PHP.
 - **XAMPP**: Para PHP e MySQL.
 - **Visual Studio Code**: Para abrir e rodar a aplicação com NPM.
+
+---
+
+## Vídeo da Aplicação
+
+Confira o vídeo abaixo para ver a aplicação em funcionamento:
 
 ---
 
@@ -31,14 +38,12 @@ cd c:\LojaApp__\loja\BackEnd\DataBase
 Execute o seguinte comando para criar a base de dados:
 php setup.php
 
-
 ### 5. Iniciar o Servidor PHP
 No **CMD**, navegue até a pasta do servidor PHP:
 
 cd C:\Users\isabe\LojaApp__\Loja
 Execute o comando para iniciar o servidor PHP:
 php -S 0.0.0.0:8000 -t backend
-
 
 ### 6. Iniciar a Aplicação no Visual Studio Code
 No **Visual Studio Code**, abra a pasta do projeto:
