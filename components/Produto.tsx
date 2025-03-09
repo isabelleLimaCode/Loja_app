@@ -4,7 +4,8 @@ import {
     View,
     FlatList,
     ActivityIndicator,
-    Alert
+    Alert,
+    KeyboardAvoidingView
 } from 'react-native'; 
 import { Card, Title, Paragraph, Button } from 'react-native-paper'; 
 import { useNavigation } from '@react-navigation/native'; // Hook para navegação
@@ -201,7 +202,7 @@ export default function Dashboard() {
     
 
     return (
-        <View style={{ flex: 1, paddingTop: 10, backgroundColor: '#f5f5f5' }}>
+        <KeyboardAvoidingView style={{ flex: 1, paddingTop: 10, backgroundColor: '#f5f5f5' }}>
             <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', color: '#333' }}>
                 Produtos
             </Text>
@@ -247,6 +248,6 @@ export default function Dashboard() {
                     )}
                 />
             )}
-        </View>
+        </KeyboardAvoidingView>
     );
 }

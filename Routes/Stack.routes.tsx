@@ -49,6 +49,7 @@ export default function Route() {
         <Stack.Screen 
           name="EditarProduto" 
           component={EditarProduto} 
+          options={{ headerTitle:'' }} 
           initialParams={{
             produto: { produto_id: 0, nome_produto: '', descricao: '', preco: 0, estoque: 0 }
           }} 

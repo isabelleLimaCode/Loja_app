@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { Text, View, Alert, KeyboardAvoidingView, ScrollView, Platform ,Image} from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack'; // Importar para tipar as props corretamente
 import { TextInput, Button } from 'react-native-paper';
 import stylemain from '../Styles/StyleLogin'; // Estilos
@@ -80,12 +80,13 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1, justifyContent: 'center', padding: 20 }}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Text style={stylemain.title}>Editar Produto</Text>
-
+      <Text style={stylemain.title}>Editar Produto</Text>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center',top:-30 }}>
+        <Image style= {stylemain.imgh} source={require('../assets/images/edit.png')}/>
         <TextInput
           value={nome}
           onChangeText={setNome}
+          label="Nome"
           style={{ marginBottom: 10 }}
           placeholder="Nome"
         />
@@ -93,6 +94,7 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
         <TextInput
           value={descricao}
           onChangeText={setDescricao}
+          label={'Descrição'}
           style={{ marginBottom: 10 }}
           placeholder="Descrição"
         />
@@ -100,6 +102,7 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
         <TextInput
           value={preco}
           onChangeText={setPreco}
+          label={'Preço'}
           style={{ marginBottom: 10 }}
           placeholder="Preço"
           keyboardType="numeric"
@@ -108,6 +111,7 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
         <TextInput
           value={estoque}
           onChangeText={setEstoque}
+          label={'Estoque'}
           style={{ marginBottom: 10 }}
           placeholder="Estoque"
           keyboardType="numeric"

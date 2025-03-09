@@ -14,6 +14,12 @@ export default StyleSheet.create({
 
         
     },
+    imgh:{
+        width:220,
+        height:220,
+        alignSelf:'center',
+        marginTop:10
+    },
     text: {
         fontSize: 18,
         fontWeight: 'bold',
