@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native'; // Hook para navegaç�
 import { StackNavigationProp } from '@react-navigation/stack'; // Importando o tipo correto
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from '../BackEnd/config/api_url';
-// Definir o tipo Produto
+// Definir o tipo Produto 
 type Produto = {
     subscricao_id: number;
     produto_id: number;
@@ -36,9 +36,9 @@ export default function Dashboard() {
 
     useEffect(() => {
         const loadUserData = async () => {
-            const storedUserId = await AsyncStorage.getItem('user_id');
+            const storedUserId = await AsyncStorage.getItem('user_id');// Buscar o ID do utilizador no AsyncStorage
             if (storedUserId) {
-                setUserId(storedUserId);
+                setUserId(storedUserId);// Guardar o ID do utilizador
                 console.log('User ID recuperado:', storedUserId);
             } else {
                 console.error('User ID não encontrado no AsyncStorage');
@@ -52,32 +52,32 @@ export default function Dashboard() {
     useEffect(() => {
         loadProduct();
         
-        // Adicionar listener para recarregar os produtos quando voltar da tela de edição
+        // recarregar os produtos quando voltar da tela de edição
         const unsubscribe = navigation.addListener('focus', loadProduct);
         
-        return unsubscribe; // Limpar listener ao desmontar o componente
+        return unsubscribe; // limpa o componente
     }, [navigation]);
 
     // Função para buscar os produtos
     const loadProduct = async () => {
         setIsLoading(true);
         try {
-            let response = await fetch(`${API_URL}/api/getProdutos.php`, {
+            let response = await fetch(`${API_URL}/api/getProdutos.php`, {// enpoint para buscar os produtos
                 method: 'GET',
             });
 
-            const contentType = response.headers.get('Content-Type');
+            const contentType = response.headers.get('Content-Type');// Buscar o tipo de conteúdo da resposta
             
-            if (!contentType || !contentType.includes('application/json')) {
+            if (!contentType || !contentType.includes('application/json')) {// Se a resposta não for JSON
                 const text = await response.text();
                 console.error('Resposta inesperada do servidor:', text);
                 throw new Error('Resposta não é JSON');
             }
 
-            let data = await response.json();
+            let data = await response.json();// Buscar os dados da resposta
             console.log('Resposta da API:', data);
 
-            if (data.success && data.produtos) {
+            if (data.success && data.produtos) {// Se a resposta for bem sucedida e existirem produtos
                 setProdutos(data.produtos); // Atualiza a lista de produtos
             } else {
                 Alert.alert('Erro', data.message || 'Erro ao carregar os produtos');
@@ -91,37 +91,39 @@ export default function Dashboard() {
     };
 
     const removerSubscricao = async (produto_id: number) => {
-    if (!userId) {
-        Alert.alert('Erro', 'ID do usuário não encontrado');
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                cliente_id: userId,
-                produto_id: produto_id,
-            }),
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            Alert.alert('Sucesso', 'Subscrição removida com sucesso');
-            loadProduct();  // Atualiza a lista de produtos
-        } else {
-            Alert.alert('Erro', data.message || 'Erro ao remover subscrição');
+        if (!userId) {
+            Alert.alert('Erro', 'ID do usuário não encontrado');
+            return;
         }
-    } catch (error) {
-        console.error('Erro ao remover subscrição:', error);
-        Alert.alert('Erro', 'Falha na conexão com o servidor');
-    }
-};
+    
+        try {
+            const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cliente_id: userId,
+                    produto_id: produto_id,
+                }),
+            });
+    
+            const data = await response.json();
+            if (data.success) {
+                Alert.alert('Sucesso', 'Subscrição removida com sucesso');
+                loadProduct();  // Atualiza a lista de produtos
+            } else {
+                Alert.alert('Erro', data.message || 'Erro ao remover subscrição');
+            }
+        } catch (error) {
+            console.error('Erro ao remover subscrição:', error);
+            Alert.alert('Erro', 'Falha na conexão com o servidor');
+        }
+    };
+    
 
-const excluirProduto = async (produto_id: number) => {
+
+    const excluirProduto = async (produto_id: number) => {
     if (!userId) {
         Alert.alert('Erro', 'ID do usuário não encontrado');
         return;
@@ -154,7 +156,7 @@ const excluirProduto = async (produto_id: number) => {
 
     // Função para subscrever ao produto
     const subscreverProduto = async (produto_id: number) => {
-        if (!userId) {
+        if (!userId) {// Verificar se o userId está definido
             console.log('userId não está definido:', userId);
             Alert.alert('Erro', 'Dados incompletos. Não foi possível obter o ID do utilizador.');
             return;
@@ -169,7 +171,7 @@ const excluirProduto = async (produto_id: number) => {
             console.log("data_subscricao", data_subscricao);
             console.log("status", status);
     
-            const response = await fetch(`${API_URL}/api/addSubscri.php?id=${userId}`, {
+            const response = await fetch(`${API_URL}/api/addSubscri.php?id=${userId}`, {// endpoint para adicionar a subscrição
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

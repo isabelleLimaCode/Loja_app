@@ -27,9 +27,9 @@ $cliente_id = intval($_GET['cliente_id']); // Garante que seja um número inteir
 
 $produtos = [];
 
-$sql = "SELECT p.produto_id, p.nome_produto, p.descricao, p.preco, p.estoque // Seleciona os produtos
+$sql = "SELECT p.produto_id, p.nome_produto, p.descricao, p.preco, p.estoque 
         FROM Subscricoes s
-        INNER JOIN Produtos p ON s.produto_id = p.produto_id // Junta as tabelas Subscricoes e Produtos
+        INNER JOIN Produtos p ON s.produto_id = p.produto_id 
         WHERE s.cliente_id = ?"; // Seleciona as subscrições do cliente
 
 $stmt = $conn->prepare($sql);// Prepara a query

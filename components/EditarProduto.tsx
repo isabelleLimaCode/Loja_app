@@ -5,7 +5,7 @@ import { TextInput, Button } from 'react-native-paper';
 import stylemain from '../Styles/StyleLogin'; // Estilos
 import { API_URL } from '../BackEnd/config/api_url';// Importar a URL da API
 
-// Definir o tipo Produto
+// Definir objeto para o Produto 
 type Produto = {
   produto_id: number;
   nome_produto: string;
@@ -14,7 +14,7 @@ type Produto = {
   estoque: number;
 };
 
-// Tipar as props corretamente com StackScreenProps
+// Tipar as props corretamente com StackScreenProps garanta que as propriedades corretas sejam passadas, evitando erros no momento da navegação.
 type RootStackParamList = {
   login: undefined;
   Main: undefined;
@@ -22,16 +22,16 @@ type RootStackParamList = {
   EditarProduto: { produto: Produto };
 };
 
-type EditarProdutoProps = StackScreenProps<RootStackParamList, 'EditarProduto'>;
+type EditarProdutoProps = StackScreenProps<RootStackParamList, 'EditarProduto'>;// pq essa tela ta espera de um parametro
 
-export default function EditarProduto({ navigation, route }: EditarProdutoProps) {
-  const { produto } = route.params;
+export default function EditarProduto({ navigation, route }: EditarProdutoProps) { // recebe as variavies do parametro a cima
+  const { produto } = route.params;// pega o produto que foi passado como parametro
 
   // Estados para os campos do produto
-  const [nome, setNome] = useState(produto.nome_produto || '');
-  const [descricao, setDescricao] = useState(produto.descricao || '');
-  const [preco, setPreco] = useState(produto.preco?.toString() || '');
-  const [estoque, setEstoque] = useState(produto.estoque?.toString() || '');
+  const [nome, setNome] = useState(produto.nome_produto || '');//guarda o nome do produto senao guarda vazio
+  const [descricao, setDescricao] = useState(produto.descricao || '');//guarda a descricao do produto senao guarda vazio
+  const [preco, setPreco] = useState(produto.preco?.toString() || '');//guarda o preco do produto senao guarda vazio
+  const [estoque, setEstoque] = useState(produto.estoque?.toString() || '');//guarda o estoque do produto senao guarda vazio
 
   // Função para enviar os dados do produto atualizado para o servidor
   const handleUpdate = async () => {
@@ -43,17 +43,17 @@ export default function EditarProduto({ navigation, route }: EditarProdutoProps)
   
     // Enviar os dados via requisição POST
     try {
-      const response = await fetch(`${API_URL}/api/updateproduto.php`, {
+      const response = await fetch(`${API_URL}/api/updateproduto.php`, {//envia os dados para a api
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          produto_id: produto.produto_id,
+        body: JSON.stringify({//envia os dados em formato json
+          produto_id: produto.produto_id,//envia o id do produto
           nome_produto: nome,
           descricao,
-          preco: parseFloat(preco),
-          estoque: parseInt(estoque),
+          preco: parseFloat(preco),//converte o preco para float
+          estoque: parseInt(estoque),// converte o estoque para inteiro
         }),
       });
   

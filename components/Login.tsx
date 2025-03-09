@@ -24,7 +24,7 @@ type RootStackParamList = {
 };
 
 type Props = {
-    navigation: StackNavigationProp<RootStackParamList, "login">;
+    navigation: StackNavigationProp<RootStackParamList, "login">;//receber parametros de navegação
 };
 
 export default function Login({ navigation }: Props) {
@@ -35,30 +35,30 @@ export default function Login({ navigation }: Props) {
     const [telefone, setTelefone] = useState('');
 
     const handleLogin = async () => {
-        console.log('Iniciando login...');
-        setIsLoading(true);
+        console.log('Iniciando login...');// log de verificação
+        setIsLoading(true);// isLoading passa a true para mostrar o ActivityIndicator
         try {
-            console.log('Fazendo requisição para a API...');
-            let response = await fetch(`${API_URL}/api/login.php`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+            console.log('Fazendo requisição para a API...');// log de verificação
+            let response = await fetch(`${API_URL}/api/login.php`, {//fazendo requisição para a API
+                method: 'POST',//método post é enviado para a API
+                headers: { 'Content-Type': 'application/json' },//tipo de conteúdo enviado para a API
+                body: JSON.stringify({ email, password }),//passa os dados em formato JSON
             });
     
-            console.log('Resposta recebida da API:', response);
+            console.log('Resposta recebida da API:', response);// log de verificação
             if (!response.ok) {
-                throw new Error(`Erro na requisição: ${response.status}`);
+                throw new Error(`Erro na requisição: ${response.status}`);//se a resposta não for ok, retorna um erro
             }
     
-            let data = await response.json();
+            let data = await response.json();//recebe os dados da resposta da API
             console.log('Resposta do servidor:', data);
     
-            if (data.success && data.user) {
+            if (data.success && data.user) {//se a resposta for sucesso e tiver usuário
                 console.log('Usuário autenticado com sucesso:', data.user);
-                const { cliente_id, nome, email ,telefone} = data.user;
+                const { cliente_id, nome, email ,telefone} = data.user;//pega os dados do usuário
     
-                if (cliente_id && nome && email) {
-                    await AsyncStorage.setItem('user_id', cliente_id.toString());
+                if (cliente_id && nome && email) {//se tiver id, nome e email
+                    await AsyncStorage.setItem('user_id', cliente_id.toString());// guarda essas variaveis com asyncStorage para serem enviadas por tipagem
                     await AsyncStorage.setItem('user_email', email);
                     await AsyncStorage.setItem('telemovel_user', telefone);
     
@@ -79,7 +79,7 @@ export default function Login({ navigation }: Props) {
     };
     
 
-    const togglePasswordVisibility = () => {
+    const togglePasswordVisibility = () => {//função para mostrar ou esconder a password
         setShowPassword(!showPassword);
     };
 

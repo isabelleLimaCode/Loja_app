@@ -28,20 +28,20 @@ type RootStackParamList = {
 };
 
 export default function Subscricao() {
-    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();// receber parametros de navegação
     const [isLoading, setIsLoading] = useState(false);
     const [produtos, setProdutos] = useState<Produto[]>([]);
     const [userId, setUserId] = useState<string | null>(null);
     const [alertShown, setAlertShown] = useState(false);  // Controla se o alerta foi mostrado
 
-    useEffect(() => {
+    useEffect(() => {// carregar os dados do utilizador
         const loadUserData = async () => {
             try {
                 const storedUserId = await AsyncStorage.getItem('user_id');
-                console.log('User ID recuperado:', storedUserId); // Debugging
+                console.log('User ID recuperado:', storedUserId); // mostrar o id do utilizador
     
-                if (storedUserId) {
-                    setUserId(storedUserId);
+                if (storedUserId) {// se o id do utilizador for encontrado
+                    setUserId(storedUserId);// definir o id do utilizador
                     loadProduct(storedUserId);
                 } else {
                     Alert.alert('Erro', 'Utilizador não encontrado. Faça login novamente.');
@@ -51,7 +51,7 @@ export default function Subscricao() {
             }
         };
     
-        loadUserData();
+        loadUserData();// carregar os dados do utilizador
     
         // Atualiza quando a tela ganha foco
         const unsubscribe = navigation.addListener('focus', loadUserData);
@@ -65,25 +65,25 @@ export default function Subscricao() {
             return;
         }
     
-        setIsLoading(true);
+        setIsLoading(true);// ativa o actvity indicator
         try {
-            const url = `${API_URL}/api/getSubscricoes.php?cliente_id=${id}`;
+            const url = `${API_URL}/api/getSubscricoes.php?cliente_id=${id}`;// endpoint a api para buscar os produtos subscritos
             console.log('Buscando produtos em:', url);
     
-            let response = await fetch(url, { method: 'GET' });
+            let response = await fetch(url, { method: 'GET' });// fazer o pedido a api
     
-            const contentType = response.headers.get('Content-Type');
-            if (!contentType || !contentType.includes('application/json')) {
+            const contentType = response.headers.get('Content-Type');// verificar o tipo de conteudo da resposta
+            if (!contentType || !contentType.includes('application/json')) {// verificar se a resposta é um json
                 const text = await response.text();
                 console.error('Resposta inesperada do servidor:', text);
                 throw new Error('Resposta não é JSON');
             }
     
-            let data = await response.json();
+            let data = await response.json();//verificar a resposta
             console.log('Resposta da API:', data);
     
-            if (data.success && Array.isArray(data.produtos)) {
-                setProdutos(data.produtos);
+            if (data.success && Array.isArray(data.produtos)) {// verificar se a resposta é um sucesso e se os produtos são um array
+                setProdutos(data.produtos);// definir os produtos
                 // Verifica se não há produtos e alerta o usuário apenas uma vez
                 if (data.produtos.length === 0 && !alertShown) {
                     //Alert.alert('Informação', 'Não há produtos subscritos.');
@@ -102,14 +102,14 @@ export default function Subscricao() {
 
     // Função para remover a subscrição do produto
     const removeSubscricao = async (produto_id: number) => {
-        if (!userId) {
+        if (!userId) {// verificar se o id do utilizador é valido
             Alert.alert('Erro', 'ID do usuário não encontrado');
             return;
         }
 
         try {
-            const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {
-                method: 'POST',
+            const response = await fetch(`${API_URL}/api/deleteSubscri.php`, {// endpoint para remover a subscrição
+                method: 'POST',//metodo utilizado
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -119,7 +119,7 @@ export default function Subscricao() {
                 }),
             });
 
-            const data = await response.json();
+            const data = await response.json();// verificar a resposta
             if (data.success) {
                 Alert.alert('Sucesso', 'Subscrição removida com sucesso');
                 loadProduct(userId);  // Atualiza a lista de produtos subscritos
