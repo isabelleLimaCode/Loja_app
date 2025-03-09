@@ -1,5 +1,10 @@
 # Guia de Instalação e Execução
 
+https://github.com/user-attachments/assets/b083d5cc-16bb-44f4-afcc-e0d4b61b925d
+
+
+
+
 ## Aplicações Necessárias
 
 - **Expo**: Para rodar a aplicação Expo.
