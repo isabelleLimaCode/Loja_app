@@ -1,8 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  Button, 
+  StyleSheet, 
+  Image, 
+  KeyboardAvoidingView, 
+  TouchableWithoutFeedback, 
+  Keyboard
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Para navegação
 import stylemain from '../Styles/StyleLogin';
 import { StackNavigationProp } from "@react-navigation/stack";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '@/BackEnd/config/api_url';
 
 // Definindo o tipo para as rotas
 type RootStackParamList = {
@@ -16,24 +28,48 @@ type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'aut'>; // Especificando a navegação para a tela 'aut'
 };
 
-// Função simulada para enviar a mensagem via API
-const sendWhatsappMessage = async (phone: string, message: string) => {
-  console.log(`Simulando envio de mensagem para ${phone}: ${message}`);
 
-  // Simulando uma resposta da API com sucesso
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 1000);
-  });
-};
 
 export default function Aut2F() {
   const [otp, setOtp] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  
+  const [telefone, setTelefone] = useState<string | null>(null);
+  const [mensagem, setMensagem] = useState<string | null>(null); // Mensagem a ser enviada
   const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'aut'>>(); // Usando a navegação com tipo correto
+
+
+  const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+  useEffect(() =>{
+    const loadUserData = async () => {
+      const storedTelefone = await AsyncStorage.getItem('telemovel_user');
+      if (storedTelefone) {
+        setTelefone(storedTelefone);//carrega o telemovel do user logado
+        console.log('Telemovel do user:', storedTelefone);
+        sendWhatsappMessage(storedTelefone);
+      }
+    };
+    loadUserData();
+  }, []);
+
+  // Função para enviar a mensagem via API real
+  const sendWhatsappMessage = async (phone: string) => {
+    const newOtp = generateOtp();
+    setMensagem(newOtp);
+    console.log(`Enviando OTP ${newOtp} para ${phone}`);
+    try {
+      const response = await fetch(`${API_URL}/api/sendMessage.php?phone=351${phone}&message=${newOtp}`, {
+        method: 'GET', 
+      });
+      const data = await response.json();
+      console.log('Resposta da API:', data);
+      return data;
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+      throw error;
+    }
+  };
+  
 
   const handleVerifyOtp = () => {
     if (otp.length !== 6) {
@@ -44,19 +80,13 @@ export default function Aut2F() {
     setError('');
 
     setTimeout(() => {
-      // Simulando a chamada à API
-      sendWhatsappMessage('+351910066962', 'O seu código de autenticação foi verificado com sucesso!')
-        .then(() => {
-          alert('Código verificado com sucesso!'); // Feedback para o usuário
-          navigation.navigate('Main'); // Navega para a tela 'Main'
-        })
-        .catch((err) => {
-          console.log('Erro ao simular envio de mensagem:', err);
-          setError('Erro ao enviar a mensagem.');
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      if(otp === mensagem){
+      alert('Código verificado com sucesso!');
+      navigation.navigate('Main');
+      }else{
+        alert('Código inválido!');
+        setIsLoading(false);
+      }
     }, 1500);
   };
 
@@ -94,7 +124,6 @@ export default function Aut2F() {
             disabled={isLoading}
           />
 
-          {/* Botão Cancelar para voltar ao login */}
           <Button
             title="Cancelar"
             onPress={handleCancel}

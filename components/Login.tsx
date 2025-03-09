@@ -32,6 +32,7 @@ export default function Login({ navigation }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [telefone, setTelefone] = useState('');
 
     const handleLogin = async () => {
         console.log('Iniciando login...');
@@ -54,11 +55,12 @@ export default function Login({ navigation }: Props) {
     
             if (data.success && data.user) {
                 console.log('Usuário autenticado com sucesso:', data.user);
-                const { cliente_id, nome, email } = data.user;
+                const { cliente_id, nome, email ,telefone} = data.user;
     
                 if (cliente_id && nome && email) {
                     await AsyncStorage.setItem('user_id', cliente_id.toString());
                     await AsyncStorage.setItem('user_email', email);
+                    await AsyncStorage.setItem('telemovel_user', telefone);
     
                     Alert.alert('Sucesso', data.message);
                     navigation.navigate('aut');

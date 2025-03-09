@@ -1,42 +1,46 @@
 <?php
+header('Content-Type: application/json');
 
-function sendWhatsAppMessage($phone, $message) {
-    $url = "https://api.whapi.cloud/messages/text"; // Altere para a URL correta
-    $apiKey = "SEU_BEARER_AUTH_KEY"; // Substitua pelo seu token real
+// Carregar os autoloaders e configurações
+require __DIR__ . '/../../vendor/autoload.php'; // Sobe duas pastas para aceder ao 'vendor/autoload.php'
+require __DIR__ . '/../config/configApi.php';
 
-    $data = [
-        "to" => $phone,
-        "body" => $message
-    ];
-
-    $headers = [
-        "Authorization: Bearer $apiKey",
-        "Content-Type: application/json"
-    ];
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); // Captura o código HTTP
-    curl_close($ch);
-
-    return json_encode(["http_code" => $httpCode, "response" => json_decode($response, true)]);
+// Verificar parâmetros antes de chamar a função
+if (!isset($_GET['phone']) || !isset($_GET['message'])) {
+    echo json_encode(['error' => 'Parâmetros inválidos! Use ?phone=NUMERO&message=TEXTO']);
+    exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "GET") {
-    $phone = $_GET["phone"] ?? "";
-    $message = $_GET["message"] ?? "";
+$phone = $_GET['phone'];
+$message = $_GET['message'];
 
-    if (!empty($phone) && !empty($message)) {
-        echo sendWhatsAppMessage($phone, $message);
-    } else {
-        echo json_encode(["error" => "Número de telefone e mensagem são obrigatórios"]);
+// Função para enviar mensagem no WhatsApp
+function sendWhatsAppText($apiInstance, $to, $message) {
+    $senderText = new \OpenAPI\Client\Model\SenderText();
+    $senderText->setTo($to);
+    $senderText->setBody($message);
+
+    try {
+        $result = $apiInstance->sendMessageText($senderText);
+        return ['success' => true, 'response' => $result];
+    } catch (Exception $e) {
+        return ['success' => false, 'error' => $e->getMessage()];
     }
 }
 
+try {
+    // Tentativa de enviar a mensagem
+    $response = sendWhatsAppText($apiInstance, $phone, $message);
+    
+    // Log do resultado da requisição para análise
+    if ($response['success'] === true) {
+        echo json_encode(['status' => 'Message sent successfully', 'response' => $response['response']]);
+    } else {
+        echo json_encode(['status' => 'Message failed', 'error' => $response['error']]);
+    }
+} catch (Exception $e) {
+    // Log do erro global
+    echo json_encode(['error' => 'Erro ao enviar mensagem: ' . $e->getMessage()]);
+    exit;
+}
 ?>
