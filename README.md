@@ -12,7 +12,9 @@
 ## Vídeo da Aplicação
 
 Confira o vídeo abaixo para ver a aplicação em funcionamento:
-https://firebasestorage.googleapis.com/v0/b/stock-easy-7eced.appspot.com/o/WhatsApp%20Video%202025-03-09%20at%2015.52.15.mp4?alt=media&token=31ef38ac-d6b8-445a-9dbe-a6f3c8a9a19a
+
+[Assista ao vídeo aqui](https://firebasestorage.googleapis.com/v0/b/stock-easy-7eced.appspot.com/o/WhatsApp%20Video%202025-03-09%20at%2015.52.15.mp4?alt=media&token=31ef38ac-d6b8-445a-9dbe-a6f3c8a9a19a)
+
 ---
 
 ## Passos para o Programa Funcionar
