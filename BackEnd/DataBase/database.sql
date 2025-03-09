@@ -37,7 +37,8 @@ INSERT INTO Clientes (nome, email, telefone, password, data_nascimento) VALUES
 ('Maria Santos', 'maria@email.com', '923456789','1234nt', '1985-10-20'),
 ('Carlos Pereira', 'carlos@email.com', '934567890','abcd1234', '1992-08-30'),
 ('Ana Oliveira', 'ana@email.com', '945678901','senha123', '1988-12-12'),
-('Luís Costa', 'luis@email.com', '956789012','1234abcd', '1995-02-25');
+('Luís Costa', 'luis@email.com', '956789012','1234abcd', '1995-02-25'),
+('Tiago Rodrigues', 'tiago@gmail.com', '960366551','teste', '1990-05-15');
 
 INSERT INTO Produtos (nome_produto, descricao, preco, estoque) VALUES 
 ('Produto A', 'Descrição do Produto A', 50.00, 10),
@@ -51,4 +52,8 @@ INSERT INTO Subscricoes (cliente_id, produto_id, data_subscricao, status) VALUES
 (2, 2, '2024-03-08', 'Pendente'),
 (3, 3, '2024-03-09', 'Ativo'),
 (4, 4, '2024-03-10', 'Cancelado'),
-(5, 5, '2024-03-11', 'Ativo');
+(5, 5, '2024-03-11', 'Ativo'),
+(6, 5, '2024-03-11', 'Ativo'),
+(6, 4, '2024-03-11', 'Ativo'),
+(6, 1, '2024-03-11', 'Ativo');
+
