@@ -1,12 +1,12 @@
 <?php
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+header('Content-Type: application/json');// defini em formato json
+header("Access-Control-Allow-Origin: *");// pode vim de qualquer lugar
+header("Access-Control-Allow-Methods: POST");// enviar dados post para api
 
 include('../database/db.php');  // Inclua sua conexão com o banco de dados
 
 // Receber os dados via POST
-$data = json_decode(file_get_contents('php://input'), true);
+$data = json_decode(file_get_contents('php://input'), true);//decodifica em json ou manda o erro em json
 
 // Verificar se os dados foram recebidos corretamente
 if (!isset($data['cliente_id'], $data['produto_id'])) {

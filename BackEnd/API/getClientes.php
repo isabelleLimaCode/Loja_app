@@ -5,12 +5,12 @@ header("Access-Control-Allow-Methods: GET"); // Permite apenas requisições GET
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Conectar à base de dados
-$servername = "localhost"; // Ou IP do servidor MySQL
-$username = "root"; // Substituir pelo utilizador do MySQL
+$servername = "localhost"; // servidor MySQL
+$username = "root"; // utilizador do MySQL
 $password = ""; 
 $database = "loja"; // Nome da base de dados
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database); // Conectar à base de dados
 
 // Verificar a conexão
 if ($conn->connect_error) {
@@ -21,11 +21,11 @@ if ($conn->connect_error) {
 $sql = "SELECT cliente_id, nome, email, telefone, data_nascimento FROM Clientes";
 $result = $conn->query($sql);
 
-$clientes = [];
+$clientes = [];// Array para guardar os clientes
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $clientes[] = $row;
+if ($result->num_rows > 0) { // Verificar se existem clientes
+    while ($row = $result->fetch_assoc()) { // Buscar os clientes
+        $clientes[] = $row; // Adicionar o cliente ao array
     }
 }
 

@@ -5,8 +5,8 @@ header("Access-Control-Allow-Methods: GET"); // Permite apenas requisições GET
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Conectar à base de dados
-$servername = "localhost"; // Ou IP do servidor MySQL
-$username = "root"; // Substituir pelo utilizador do MySQL
+$servername = "localhost"; //servidor MySQL
+$username = "root"; // utilizador do MySQL
 $password = ""; 
 $database = "loja"; // Nome da base de dados
 
@@ -17,21 +17,21 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Falha na conexão com a base de dados: " . $conn->connect_error]));
 }
 
-$produtos = [];
+$produtos = []; // Array para armazenar os produtos
 
 $sql = "SELECT produto_id, nome_produto, descricao, preco, estoque FROM Produtos";
-$result = $conn->query($sql);
+$result = $conn->query($sql); // Executa a query
 
 // Verifica se há produtos na base de dados
 if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $produtos[] = $row;
+    while ($row = $result->fetch_assoc()) {// Enquanto houver produtos
+        $produtos[] = $row; // Adiciona o produto ao array
     }
     // Retorna os dados em formato JSON
-    echo json_encode(["success" => true, "produtos" => $produtos]);
+    echo json_encode(["success" => true, "produtos" => $produtos]);// Retorna os produtos
 } else {
     // Caso não haja produtos
-    echo json_encode(["success" => false, "message" => "Nenhum produto encontrado"]);
+    echo json_encode(["success" => false, "message" => "Nenhum produto encontrado"]);// Retorna uma mensagem de erro
 }
 
 // Fechar a conexão

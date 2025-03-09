@@ -1,9 +1,9 @@
 <?php
-header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+header('Content-Type: application/json');// formato de arquivo que será enviado em json
+header("Access-Control-Allow-Origin: *");// Permite o acesso a API de qualquer origem
+header("Access-Control-Allow-Methods: POST");// método de requisição permitido
 
-include('../database/db.php');
+include('../database/db.php');// arquivo de conexão ao banco de dados
 
 // Receber os dados via POST
 $data = json_decode(file_get_contents('php://input'), true);
@@ -24,7 +24,7 @@ $estoque = $data['estoque'];
 // Atualizar o produto no banco de dados
 $query = "UPDATE produtos SET nome_produto = ?, descricao = ?, preco = ?, estoque = ? WHERE produto_id = ?";
 $stmt = $conn->prepare($query); // Corrigido para usar a variável correta
-$stmt->bind_param("ssdii", $nome_produto, $descricao, $preco, $estoque, $produto_id);
+$stmt->bind_param("ssdii", $nome_produto, $descricao, $preco, $estoque, $produto_id);// i = integer, s = string, d = double
 
 // Verificar se a preparação da consulta foi bem-sucedida
 if ($stmt->execute()) {
